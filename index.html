@@ -67,11 +67,40 @@
       <p class="eyebrow">LET'S TALK</p>
       <h2>Tell us how we can help.</h2>
       <p>Dealing with property damage or need an experienced restoration perspective? Reach out to Bret Hallenbeck LLC to start the conversation.</p>
-      <a class="button light" href="mailto:contact@bh-llc.org">Email our team</a>
+      <div class="email-actions">
+        <a class="email-address" href="mailto:contact@bh-llc.org">contact@bh-llc.org</a>
+        <button class="button light copy-email" type="button" data-email="contact@bh-llc.org">Copy email</button>
+      </div>
+      <span class="copy-status" role="status" aria-live="polite"></span>
     </section>
   </main>
 
   <footer><a class="brand footer-brand" href="#top"><img src="company-logo.png" alt=""><span>Bret Hallenbeck LLC</span></a><p>Insurance restoration &amp; consulting</p><p>© <span id="year"></span> Bret Hallenbeck LLC</p></footer>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const copyButton = document.querySelector('.copy-email');
+    const copyStatus = document.querySelector('.copy-status');
+    copyButton.addEventListener('click', async () => {
+      const email = copyButton.dataset.email;
+      try {
+        await navigator.clipboard.writeText(email);
+      } catch {
+        const input = document.createElement('textarea');
+        input.value = email;
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        input.remove();
+      }
+      copyButton.textContent = 'Copied!';
+      copyStatus.textContent = 'Email address copied to clipboard.';
+      window.setTimeout(() => {
+        copyButton.textContent = 'Copy email';
+        copyStatus.textContent = '';
+      }, 2200);
+    });
+  </script>
 </body>
 </html>
